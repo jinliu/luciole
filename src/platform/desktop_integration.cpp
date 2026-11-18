@@ -200,6 +200,10 @@ struct luciole::WindowSurface::Decoration {
   zxdg_toplevel_decoration_v1* role = nullptr;
   WindowSurface* surface = nullptr;
   bool server = false;
+  bool desired = true; // What Luciole asks for: server-side when set.
+  std::uint32_t mode() const {
+    return desired ? ZXDG_TOPLEVEL_DECORATION_V1_MODE_SERVER_SIDE : ZXDG_TOPLEVEL_DECORATION_V1_MODE_CLIENT_SIDE;
+  }
   void release() {
     if (role) {
       zxdg_toplevel_decoration_v1_destroy(role);
@@ -261,7 +265,7 @@ luciole::WindowSurface::WindowSurface(WaylandConnection& connection)
               }
           };
           zxdg_toplevel_decoration_v1_add_listener(state->role, &listener, state.get());
-          zxdg_toplevel_decoration_v1_set_mode(state->role, ZXDG_TOPLEVEL_DECORATION_V1_MODE_SERVER_SIDE);
+          zxdg_toplevel_decoration_v1_set_mode(state->role, state->mode());
         }
         parent->attach(desktop, role);
       },
@@ -277,7 +281,19 @@ luciole::WindowSurface::~WindowSurface() {
   m_parent->release();
   m_decoration->release();
 }
-bool luciole::WindowSurface::serverDecorated() const { return m_decoration->server; }
+bool luciole::WindowSurface::serverDecorated() const { return m_decoration->desired && m_decoration->server; }
+
+bool luciole::WindowSurface::supportsSSD() const { return m_decoration->role != nullptr; }
+
+void luciole::WindowSurface::setUseSSD(bool enabled) {
+  if (m_decoration->desired == enabled) {
+    return;
+  }
+  m_decoration->desired = enabled;
+  if (m_decoration->role) {
+    zxdg_toplevel_decoration_v1_set_mode(m_decoration->role, m_decoration->mode());
+  }
+}
 
 void luciole::WindowSurface::setParent(std::string handle, bool modal) {
   m_parent->handle = std::move(handle);

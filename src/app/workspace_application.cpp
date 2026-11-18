@@ -68,6 +68,11 @@ WorkspaceApplication::WorkspaceApplication(
       (void)id;
       page->preferencesChanged(error);
     }
+    // Unchanged windows ignore the request; changed ones rebuild their strips when the compositor answers.
+    for (auto& [id, host] : m_hosts) {
+      (void)id;
+      host->surface.setUseSSD(m_defaults.useSSD);
+    }
   });
   m_clipboard.setChangedCallback([this] {
     for (auto& [id, page] : m_pages) {
@@ -940,6 +945,7 @@ luciole::WindowId WorkspaceApplication::newWindow(std::unique_ptr<FileChooserSes
   });
   host->dispatcher.setFocusChangeCallback([this, raw](InputArea*, InputArea* focused) { focusChanged(*raw, focused); });
   const bool choosing = host->chooser != nullptr;
+  host->surface.setUseSSD(m_defaults.useSSD);
   if (!host->surface.initialize(
           nullptr,
           {.width = choosing ? 900U : 1080U,

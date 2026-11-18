@@ -56,6 +56,10 @@ namespace luciole {
     explicit WindowSurface(WaylandConnection& connection);
     ~WindowSurface() override;
     bool serverDecorated() const;
+    bool supportsSSD() const;
+    // Asks the compositor to leave the decorations to Luciole (false) or to draw them (true). Takes effect on an
+    // existing window too; the compositor's reply arrives as a layout request.
+    void setUseSSD(bool enabled);
     // Parents the window to a portal `parent_window` handle; call before initialize(). Only "wayland:"
     // handles take effect; `modal` asks the compositor to treat the window as a modal dialog of it.
     void setParent(std::string handle, bool modal);

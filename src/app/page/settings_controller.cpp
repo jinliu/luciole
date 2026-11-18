@@ -74,7 +74,8 @@ void SettingsController::toggle() {
           surface->requestLayout();
         }
       },
-      [this] { m_preferences.resetAll(); }, [this] { m_page.dismissPopup(); }, [this] { m_clearThumbnails(); }
+      [this] { m_preferences.resetAll(); }, [this] { m_page.dismissPopup(); }, [this] { m_clearThumbnails(); },
+      m_page.surface().supportsSSD()
   );
   root->setPopupContext(&m_page.dialogDropdown());
   m_view = root.get();

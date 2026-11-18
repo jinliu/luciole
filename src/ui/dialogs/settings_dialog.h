@@ -14,7 +14,7 @@ class SettingsDialog final : public Flex {
 public:
   SettingsDialog(
       std::function<void(luciole::OverrideEdit)> change, std::function<void()> reset, std::function<void()> close,
-      std::function<void()> clearThumbnails
+      std::function<void()> clearThumbnails, bool compositorSupportsSSD
   );
   void sync(
       const luciole::BrowserSettings& settings, const luciole::BrowserSettings& inherited, bool busy,

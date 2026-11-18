@@ -34,7 +34,7 @@ namespace {
 
 SettingsDialog::SettingsDialog(
     std::function<void(luciole::OverrideEdit)> change, std::function<void()> reset, std::function<void()> close,
-    std::function<void()> clearThumbnails
+    std::function<void()> clearThumbnails, bool compositorSupportsSSD
 )
     : m_change(std::move(change)), m_resetAll(std::move(reset)) {
   setDirection(FlexDirection::Vertical);
@@ -111,6 +111,9 @@ SettingsDialog::SettingsDialog(
   addTerminal();
   section("Appearance", "paint");
   card("Window");
+  if (compositorSupportsSSD) {
+    addBool(P::UseSSD, "Use System Title Bar And Borders");
+  }
   addFraction(P::BackgroundOpacity, "Background Opacity", 1.0, 0.01);
   addFraction(P::CornerRadiusScale, "Corner Roundness", 2.0, 0.05, {}, [](double value) {
     Style::setCornerRadiusScale(static_cast<float>(value));
