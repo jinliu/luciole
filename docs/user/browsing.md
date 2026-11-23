@@ -28,6 +28,10 @@ Open Terminal Here is near the top of the folder background menu. A single folde
 
 In List and Columns, Right or Enter enters the folder under the cursor and Left or Backspace goes to its parent. Entering a folder from the keyboard selects its first item; going up selects the folder you left. In a List view folder tree, Left and Right still collapse and expand folders first. Grid keeps Left and Right for moving between items. Backspace edits typeahead or the search query while one is active.
 
+The Parent Folder toolbar button also returns keyboard focus to the file view. Once the parent listing loads, F2 renames the selected folder you left, and Delete moves it to Trash.
+
+After deleting the selected item, selection moves to the next remaining item in the previous visible order, or the previous one when there is no successor. Surviving items in a multi-selection stay selected while a deletion finishes or some items fail. An empty folder clears selection. The same behavior applies to context-menu deletion and observed removals; filtering and navigation keep their existing selection rules. Within an expanded List folder, an empty branch does not select an unrelated item outside that branch.
+
 The cursor ring marks the item the keyboard acts on and stays visible inside a multi-selection. Ctrl+arrow keys move it without changing the selection, and Ctrl+Space selects or unselects the item under it. Ctrl+Enter opens the folder under the cursor in a new tab; Ctrl+Shift+Enter reverses the Switch to new folder tabs preference. Escape anywhere outside the file list, such as Places or the toolbar, returns focus to the list. In the search field, Down or Enter moves to the results with the first one selected. F1 lists every shortcut.
 
 ## Network folders
@@ -96,7 +100,7 @@ The status bar, a small tab docked to the bottom of the file pane, reports actio
 
 Click an entry to select it, Ctrl+click to toggle it and Shift+click to select a range. Clicking empty space clears selection. Drag an area over entries to select several. Ctrl+A selects all visible results, Ctrl+Shift+I inverts selection and Ctrl+S selects by pattern. Escape clears the selection when browsing. Opening uses double-click by default; Settings → General offers single-click opening.
 
-Opening a local file uses the default application for its file type; supported local archives open in Luciole's archive browser instead (see [archives](file-operations.md#archives)). Use Open With to choose another application or change that file type's default.
+Opening a local file uses the default application for its file type; supported local archives open in Luciole's archive browser instead (see [archives](file-operations.md#archives)). Use Open With to choose another application or change that file type's default. Suggested applications include registered file handlers whose desktop entries use `NoDisplay=true`, such as imv and swayimg. For a mixed selection, suggested applications must handle every selected file type. Show Other Applications retains launcher visibility rules for unrelated applications.
 
 ### Per-folder view and sort
 

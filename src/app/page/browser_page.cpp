@@ -1809,6 +1809,7 @@ void BrowserPage::leaveFolder() {
   }
   if (auto current = browser().model().snapshot().location; browser().up()) {
     revealOnReload({std::move(*current)});
+    focusFileList();
   }
 }
 
