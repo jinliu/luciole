@@ -3,6 +3,7 @@
 #include "config/diagnostic.h"
 #include "config/keybinds.h"
 #include "fs/atomic_file.h"
+#include "fs/folder_totals.h"
 #include "model/directory_options.h"
 #include "model/thumbnail_options.h"
 
@@ -49,6 +50,7 @@ namespace luciole {
     bool showDrives = true;
     bool showNetwork = true;
     bool expandableFolders = false;
+    FolderTotalsType folderSizeColumnType = FolderTotalsType::ChildCount;
     bool showPreview = true;
     // File picker windows keep their own preview visibility and layout.
     bool chooserShowPreview = false;
@@ -124,6 +126,7 @@ namespace luciole {
     ShowDrives,
     ShowNetwork,
     ExpandableFolders,
+    FolderSizeColumnType,
     ShowPreview,
     ChooserShowPreview,
     ChooserStartFolder,
@@ -225,6 +228,7 @@ namespace luciole {
     static constexpr PreferenceKey<bool> ShowDrives{Id::ShowDrives};
     static constexpr PreferenceKey<bool> ShowNetwork{Id::ShowNetwork};
     static constexpr PreferenceKey<bool> ExpandableFolders{Id::ExpandableFolders};
+    static constexpr PreferenceKey<luciole::FolderTotalsType> FolderSizeColumnType{Id::FolderSizeColumnType};
     static constexpr PreferenceKey<bool> ShowPreview{Id::ShowPreview};
     static constexpr PreferenceKey<bool> ChooserShowPreview{Id::ChooserShowPreview};
     static constexpr PreferenceKey<luciole::ChooserStartFolder> ChooserStartFolder{Id::ChooserStartFolder};
@@ -288,7 +292,8 @@ namespace luciole {
     BrowserPreferenceId m_preference;
     std::variant<
         std::monostate, bool, int, double, SortField, ViewMode, ViewDensity, FilenameTruncation, DetailsColumnOrder,
-        ActivationMode, TypingMode, DropAction, ThumbnailPolicy, ChooserStartFolder, std::string, KeybindConfig>
+        ActivationMode, TypingMode, DropAction, ThumbnailPolicy, FolderTotalsType, ChooserStartFolder, std::string,
+        KeybindConfig>
         m_value;
   };
 

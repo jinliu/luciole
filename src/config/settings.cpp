@@ -76,6 +76,9 @@ namespace {
        {luciole::ThumbnailPolicy::Local, "local"},
        {luciole::ThumbnailPolicy::All, "all"}}
   );
+  constexpr auto kFolderTotalsTypes = std::to_array<Named<luciole::FolderTotalsType>>(
+      {{luciole::FolderTotalsType::ChildCount, "child_count"}, {luciole::FolderTotalsType::TotalSize, "total_size"}}
+  );
 
   // How a preference is spelled in TOML and which values it accepts. Enums
   // are strings from `names`.
@@ -370,6 +373,10 @@ namespace {
       describe(P::ShowDrives, "show_drives", [](S& s) -> auto& { return s.showDrives; }),
       describe(P::ShowNetwork, "show_network", [](S& s) -> auto& { return s.showNetwork; }),
       describe(P::ExpandableFolders, "expandable_folders", [](S& s) -> auto& { return s.expandableFolders; }),
+      describe(
+          P::FolderSizeColumnType, "folder_size_column_type", [](S& s) -> auto& { return s.folderSizeColumnType; },
+          {kFolderTotalsTypes}
+      ),
       describe(P::ShowPreview, "show_preview", [](S& s) -> auto& { return s.showPreview; }),
       describe(P::ChooserShowPreview, "chooser_show_preview", [](S& s) -> auto& { return s.chooserShowPreview; }),
       describe(
@@ -727,6 +734,7 @@ template luciole::FilenameTruncation& luciole::preferenceValue(BrowserSettings&,
 template luciole::DetailsColumnOrder& luciole::preferenceValue(BrowserSettings&, PreferenceKey<DetailsColumnOrder>);
 template luciole::ThumbnailPolicy& luciole::preferenceValue(BrowserSettings&, PreferenceKey<ThumbnailPolicy>);
 template luciole::ChooserStartFolder& luciole::preferenceValue(BrowserSettings&, PreferenceKey<ChooserStartFolder>);
+template luciole::FolderTotalsType& luciole::preferenceValue(BrowserSettings&, PreferenceKey<FolderTotalsType>);
 template const bool& luciole::preferenceValue(const BrowserSettings&, PreferenceKey<bool>);
 template const int& luciole::preferenceValue(const BrowserSettings&, PreferenceKey<int>);
 template const double& luciole::preferenceValue(const BrowserSettings&, PreferenceKey<double>);
@@ -744,6 +752,8 @@ template const luciole::ThumbnailPolicy&
 luciole::preferenceValue(const BrowserSettings&, PreferenceKey<ThumbnailPolicy>);
 template const luciole::ChooserStartFolder&
 luciole::preferenceValue(const BrowserSettings&, PreferenceKey<ChooserStartFolder>);
+template const luciole::FolderTotalsType&
+luciole::preferenceValue(const BrowserSettings&, PreferenceKey<FolderTotalsType>);
 
 std::string_view luciole::sortFieldName(SortField field) {
   const auto* found = std::ranges::find(kSortFields, field, &Named<SortField>::value);
