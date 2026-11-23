@@ -233,8 +233,8 @@ std::shared_ptr<const luciole::MoveEffect> luciole::MoveEffect::prepareReplaceme
 }
 
 std::shared_ptr<const luciole::MoveEffect> luciole::MoveEffect::publishedReplacement() const {
-  m_identity->revisions->renamed(m_revision, statFd(m_identity->item.get()));
-  auto expected = m_identity->revisions->expected(m_revision);
+  const auto expected = statFd(m_identity->item.get());
+  m_identity->revisions->renamed(m_revision, expected, true);
   if (!sameFileRevision(expected, statFd(m_identity->item.get()))
       || !sameFileRevision(expected, namedStamp(destinationParent(), m_destination))) {
     throwFileError(FileErrorKind::Changed, "The incoming move changed during replacement. Inspect both locations.");

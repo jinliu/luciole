@@ -34,4 +34,7 @@ namespace luciole {
   bool sameIdentity(const struct stat& a, const struct stat& b);
   // Rename history ignores access time; metadata/content changes invalidate a captured revision.
   bool sameFileRevision(const struct stat& a, const struct stat& b);
+  // A completed rename changes ctime; an atomic directory exchange can also change mtime (XFS).
+  // Use only immediately after our own successful syscall, before adopting the new revision.
+  bool sameRenamedRevision(const struct stat& before, const struct stat& after, bool exchanged = false);
 } // namespace luciole

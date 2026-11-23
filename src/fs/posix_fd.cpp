@@ -70,3 +70,12 @@ bool luciole::sameFileRevision(const struct stat& a, const struct stat& b) {
       && a.st_ctim.tv_sec == b.st_ctim.tv_sec
       && a.st_ctim.tv_nsec == b.st_ctim.tv_nsec;
 }
+
+bool luciole::sameRenamedRevision(const struct stat& before, const struct stat& after, bool exchanged) {
+  auto expected = before;
+  expected.st_ctim = after.st_ctim;
+  if (exchanged && S_ISDIR(before.st_mode)) {
+    expected.st_mtim = after.st_mtim;
+  }
+  return sameFileRevision(expected, after);
+}

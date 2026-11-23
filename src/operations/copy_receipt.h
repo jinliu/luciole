@@ -70,7 +70,8 @@ namespace luciole {
     bool ownsProof() const;
     void validate(const CancelToken& token, const std::map<std::string, int>& parents = {}) const;
     void vacant() const;
-    std::shared_ptr<const CopyEffect> afterMove(bool hidden, const std::map<std::string, int>& parents = {}) const;
+    std::shared_ptr<const CopyEffect>
+    afterMove(bool hidden, const std::map<std::string, int>& parents = {}, bool exchanged = false) const;
     Location m_destination;
     std::shared_ptr<CopyStorage> m_storage;
     std::shared_ptr<const transfer::Tree> m_tree;

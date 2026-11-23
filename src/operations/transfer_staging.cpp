@@ -340,7 +340,7 @@ namespace luciole::transfer {
             }
             published = true;
             result.destination = binding.location.child(target);
-            if (replace && !sameContent(*replace, info(stage.fd(), "item"))) {
+            if (replace && !sameRenamedRevision(*replace, info(stage.fd(), "item"), true)) {
               stage.retain();
               throwFileError(
                   FileErrorKind::Changed, "The previous destination changed and was retained in " + stage.name()
